@@ -22,10 +22,10 @@ namespace Joker.Controllers
         {
             return Ok(await _context.GetAllJokes());
         }
-        [HttpGet("Id")]
-        public async Task<IActionResult> GetById(int id) 
+        [HttpGet("{Id}")]
+        public async Task<IActionResult> GetById(int Id) 
         {
-            var outcome = await _context.GetJokeById(id);
+            var outcome = await _context.GetJokeById(Id);
            return outcome is null ? NotFound() : Ok(outcome);
         }
         [HttpGet("random")]
@@ -37,6 +37,21 @@ namespace Joker.Controllers
         public async Task<IActionResult> Create(string theme, string content)
         {
             await _context.AddJoke(theme, content);
+            return Ok();
+        }
+        [HttpDelete("delete/{Id}")]
+        public async Task<IActionResult> DeleteJoke(int Id)
+        {
+            await _context.DeleteJoke(Id);
+            return Ok();
+        }
+        [HttpPatch("modify/{Id}")]
+        public async Task<IActionResult> ModifyAJoke(int Id, [FromBody] Joke update)
+        {
+            Joke joke = new Joke();
+            joke.Theme = update.Theme;
+            joke.Content = update.Content;
+            await _context.ModifyJokeById(Id, joke);
             return Ok();
         }
     }
