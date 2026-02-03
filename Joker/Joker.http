@@ -1,0 +1,6 @@
+@Joker_HostAddress = http://localhost:5042
+
+GET {{Joker_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
