@@ -46,12 +46,10 @@ namespace Joker.Controllers
             return Ok();
         }
         [HttpPatch("modify/{Id}")]
-        public async Task<IActionResult> ModifyAJoke(int Id, [FromBody] Joke update)
+        public async Task<IActionResult> ModifyAJoke(int Id, [FromBody] JokeForModify update)
         {
-            Joke joke = new Joke();
-            joke.Theme = update.Theme;
-            joke.Content = update.Content;
-            await _context.ModifyJokeById(Id, joke);
+            
+            await _context.ModifyJokeById(Id, update);
             return Ok();
         }
     }

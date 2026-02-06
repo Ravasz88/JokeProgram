@@ -1,4 +1,5 @@
 ﻿using Joker.Controllers;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Joker.Repositories
 {
@@ -10,6 +11,6 @@ namespace Joker.Repositories
         Task<Joke> RandomJoke();
         Task DeleteJoke(int id);
 
-        Task<Joke> ModifyJokeById(int id, Joke update);
+        Task ModifyJokeById(int id, JokeForModify update);
     }
 }

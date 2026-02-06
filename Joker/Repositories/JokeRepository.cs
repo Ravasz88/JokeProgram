@@ -44,18 +44,26 @@ namespace Joker.Repositories
            return await dbContext.Jokes.FirstAsync(x=>x.Id == id);
         }
 
-        public async Task<Joke> ModifyJokeById(int id, Joke update)
+        public async Task ModifyJokeById(int id, JokeForModify update)
         {
             var joke = await GetJokeById(id);
             if (joke != null)
             {
-                joke.Theme = update.Theme;
+                if (!string.IsNullOrWhiteSpace(update.Theme))
+                {
+                    joke.Theme = update.Theme;
+                }
+                if (!string.IsNullOrWhiteSpace(update.Content))
+                {
+                    joke.Content = update.Content;
+                }
                 joke.Content = update.Content;
                 
                  dbContext.Update(joke);
-                return joke;
+                 await dbContext.SaveChangesAsync();
+               
             }
-            return null;
+           
         }
 
         public async Task<Joke> RandomJoke()
