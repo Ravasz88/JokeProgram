@@ -9,7 +9,7 @@ namespace Joker.Controllers
         {
             
         }
-        public Joke(int id, string theme, string content)
+        public Joke(int id, string theme, string content, string type, int sumStarts, float averageStars)
         {
             Id = id;
             Theme = theme;
@@ -21,5 +21,11 @@ namespace Joker.Controllers
         public string Theme { get; set; }
         [Column("content")]
         public string Content { get; set; }
+        [Column("type")]
+        public string Type { get; set; }
+        [Column("sumstars")]
+        public int SumStarts { get; set; }
+        [Column("averagestars")]
+        public float AverageStars { get; set; } 
     }
 }

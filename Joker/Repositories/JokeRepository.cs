@@ -14,14 +14,27 @@ namespace Joker.Repositories
             this.dbContext = dbContext;
         }
 
-        public async Task AddJoke(string theme, string content)
+        public async Task AddJoke(string theme, string content, string type)
         {
             Joke joke = new Joke();
+            joke.AverageStars = 0;
+            joke.SumStarts = 0;
+            joke.Type = type;
             joke.Theme = theme;
             joke.Content = content;
 
             dbContext.Add(joke);
            await dbContext.SaveChangesAsync();    
+        }
+
+        public async Task AddStar(int id, int number)
+        {
+            Joke joke = await GetJokeById(id);
+            joke.AverageStars += number;
+            joke.SumStarts += 1;
+            dbContext.Update(joke);
+            await dbContext.SaveChangesAsync();
+            
         }
 
         public async Task DeleteJoke(int id)
@@ -44,6 +57,13 @@ namespace Joker.Repositories
            return await dbContext.Jokes.FirstAsync(x=>x.Id == id);
         }
 
+        public async Task<float> GetStars(int id)
+        {
+            Joke joke = await GetJokeById(id);
+            return joke.AverageStars;
+
+        }
+
         public async Task ModifyJokeById(int id, JokeForModify update)
         {
             var joke = await GetJokeById(id);
@@ -56,6 +76,10 @@ namespace Joker.Repositories
                 if (!string.IsNullOrWhiteSpace(update.Content))
                 {
                     joke.Content = update.Content;
+                }
+                if (!string.IsNullOrWhiteSpace(update.Type))
+                {
+                    joke.Type = update.Type;
                 }
                 joke.Content = update.Content;
                 

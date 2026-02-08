@@ -34,9 +34,9 @@ namespace Joker.Controllers
             return Ok(await _context.RandomJoke());
         }
         [HttpPost]
-        public async Task<IActionResult> Create(string theme, string content)
+        public async Task<IActionResult> Create(string theme, string content, string type)
         {
-            await _context.AddJoke(theme, content);
+            await _context.AddJoke(theme, content, type);
             return Ok();
         }
         [HttpDelete("delete/{Id}")]
@@ -50,6 +50,12 @@ namespace Joker.Controllers
         {
             
             await _context.ModifyJokeById(Id, update);
+            return Ok();
+        }
+        [HttpPost("addstar/{Id}")]
+        public async Task<IActionResult> AddAStar(int id, int value)
+        {
+            await _context.AddStar(id, value);
             return Ok();
         }
     }
